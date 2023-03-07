@@ -9,6 +9,7 @@ import yaml
 import argparse
 import logging
 import sys
+from translator import TranslatorWrap
 
 
 UPLOAD_SLEEP_SECOND = 60 * 2  # 2min
@@ -81,10 +82,11 @@ def get_video_list(channel_id: str):
         "https://www.youtube.com/feeds/videos.xml?channel_id=" + channel_id).text
     res = xmltodict.parse(res)
     ret = []
+    trans = TranslatorWrap
     for elem in res.get("feed", {}).get("entry", []):
         ret.append({
             "vid": elem.get("yt:videoId"),
-            "title": elem.get("title"),
+            "title": trans.en2zh(elem.get("title")),
             "origin": "https://www.youtube.com/watch?v=" + elem["yt:videoId"],
             "cover_url": elem["media:group"]["media:thumbnail"]["@url"],
             # "desc": elem["media:group"]["media:description"],
