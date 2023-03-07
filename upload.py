@@ -86,7 +86,7 @@ def get_video_list(channel_id: str):
     for elem in res.get("feed", {}).get("entry", []):
         ret.append({
             "vid": elem.get("yt:videoId"),
-            "title": trans.en2zh(elem.get("title")),
+            "title": trans.en2zh(text=elem.get("title")),
             "origin": "https://www.youtube.com/watch?v=" + elem["yt:videoId"],
             "cover_url": elem["media:group"]["media:thumbnail"]["@url"],
             # "desc": elem["media:group"]["media:description"],
